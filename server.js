@@ -10,7 +10,7 @@ var port = 1337;
 http.listen(port, function () {
   var host = http.address().address;
   var port = http.address().port;
-  console.log('Example app listening at http://%s:%s', host, port);
+  console.log('drone-track-server listening at http://%s:%s', host, port);
 });
 
 geo_data.init();
