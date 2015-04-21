@@ -1,0 +1,25 @@
+{
+  "name": "drone-track-server",
+  "version": "0.0.1",
+  "description": "Tracks the real time position of a drone following a pre-defined course at constant velocity",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jbrecht/drone-track-server.git"
+  },
+  "author": "John Brecht",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jbrecht/drone-track-server/issues"
+  },
+  "homepage": "https://github.com/jbrecht/drone-track-server",
+  "dependencies": {
+    "express": "^4.12.3",
+    "socket.io": "1.3.5",
+    "underscore": "1.8.3"
+  }
+}
