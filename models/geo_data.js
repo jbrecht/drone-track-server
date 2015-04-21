@@ -6,7 +6,6 @@ var totalDistance = 0;
 var minLon, maxLon, minLat, maxLat;
 
 function init() {
-  console.log('geo_data init');
   fs.readFile('waypoints.txt', 'utf8', function (err,data) {
     if (err) {
       return console.log(err);
@@ -21,7 +20,6 @@ function getFootprint() {
 
 function getPosition(time, velocity) {
   if(!distances){
-    console.log('no distances yet');
     return null;
   }
 
@@ -76,7 +74,6 @@ var initData = function(data) {
     cumulativeDistances.push(totalDistance);
     testFootprint(waypoints[i+1]);
   }
-  console.log('geo_data init complete');
 };
 
 var testFootprint = function(point) {
