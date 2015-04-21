@@ -17,7 +17,7 @@ function init() {
 }
 
 function getFootprint() {
-  return [minLon, minLat, maxLon, maxLat];
+  return [minLat, minLon, maxLat, maxLon];
 }
 
 function getPosition(time, velocity) {
@@ -129,3 +129,4 @@ var haversine = function(coord1, coord2) {
 
 module.exports.init = init;
 module.exports.getPosition = getPosition;
+module.exports.getFootprint = getFootprint;

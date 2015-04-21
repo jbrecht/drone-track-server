@@ -9,7 +9,6 @@ var port = 1337;
 http.listen(port, function () {
   var host = http.address().address;
   var port = http.address().port;
-
   console.log('Example app listening at http://%s:%s', host, port);
 });
 
@@ -19,7 +18,7 @@ var _ = require('underscore');
 var url = require('url');
 
 var time = 0;
-var TIME_DELTA = 1;
+var TIME_DELTA = 0.1;
 var TIME_DELTA_MS = TIME_DELTA*1000;
 var timer = null;
 
@@ -38,6 +37,8 @@ var setDroneStatus = function(value) {
   if(value.toUpperCase() in statuses) {
     if(value===statuses.RESET) {
       time = 0;
+      var data = {time:time, distance: time*velocity, position: geo_data.getPosition(time, velocity)};
+      io.emit('timer_tick', data);
     }
     if(drone_status!=statuses.FLYING && value===statuses.FLYING) {
       startFlightTimer();
@@ -55,7 +56,6 @@ var setDroneStatus = function(value) {
 var timerTick = function() {
   time += TIME_DELTA;
   var data = {time:time, distance: time*velocity, position: geo_data.getPosition(time, velocity)};
-  console.log(data);
   io.emit('timer_tick', data);
 };
 
@@ -67,7 +67,7 @@ var stopFlightTimer = function() {
 };
 
 io.on('connection', function (socket) {
-  socket.emit('status', { status: drone_status });
+  socket.emit('footprint', {footprint: geo_data.getFootprint()});
   socket.on('status_update', function (data) {
     try {
       console.log('attempt to set status to: ', data);
@@ -76,33 +76,4 @@ io.on('connection', function (socket) {
 
     }
   });
-  socket.on('footprint', function (data) {
-    console.log('footprint: ', geo_data.getFootprint());
-  });
-  socket.on('timer_tick', function (data) {
-    console.log('timer tick: ', data);
-  });
 });
-
-/*
-app.get('/', function (req, res) {
-  res.send('Drone track is ready.');
-});
-
-app.get('/status', function (req, res) {
-  res.send(drone_status);
-});
-
-app.put('/status', function (req, res) {
-  var url_parts = url.parse(req.url, true);
-  var query = _.keys(url_parts.query)[0];
-  var response = '';
-  try {
-    setDroneStatus(statuses[query]);
-    res.send('Drone status updated: ' + drone_status);
-  } catch (error) {
-    res.send('Drone status not updated: ' + error);
-  }
-
-});*/
-
